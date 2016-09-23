@@ -13,12 +13,6 @@ Jonah Bossewitch, MHA of NYC
 import sys
 import nltk
 
-
-class Usage(Exception):
-    def __init__(self, msg):
-        self.msg = msg
-
-
 def extract_entity_names(t):
     """extracts entity names from an nltk tree, in this case a sentence chunk"""
 
@@ -34,12 +28,12 @@ def extract_entity_names(t):
 
 
 def parse_file(filename):
-    """takes a text filename and returns a list of nltk extrated names"""
+    """takes a text filename and returns a list of unique nltk extracted names"""
 
     with open(filename, 'r') as f:
-        sample = f.read()
+        file = f.read()
 
-    sentences = nltk.sent_tokenize(sample)
+    sentences = nltk.sent_tokenize(file)
     tokenized_sentences = [nltk.word_tokenize(sentence) for sentence in sentences]
     tagged_sentences = [nltk.pos_tag(sentence) for sentence in tokenized_sentences]
     chunked_sentences = nltk.ne_chunk_sents(tagged_sentences, binary=True)
@@ -59,6 +53,8 @@ def main(argv=None):
     args = parser.parse_args()
 
     entity_list = parse_file(args.filename)
+    # print the names out to stdout, one per line. 
+    # meant to be redirected into an output file.
     for entity in entity_list:
         print(entity)
 
