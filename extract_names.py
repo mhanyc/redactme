@@ -3,7 +3,7 @@
 This script extracts the Named Entities from a text file (must be utf8 encoded)
 and outputs a list of these entities, one per line.
 
-extract_names.py [-h|--file] <utf8 encoded text file to process>
+extract_names.py [-h|--help] <utf8 encoded text file to process>
 
 This script is based on https://gist.github.com/onyxfish/322906#gistcomment-1485426
 
@@ -12,6 +12,7 @@ Jonah Bossewitch, MHA of NYC
 
 import sys
 import nltk
+
 
 def extract_entity_names(t):
     """extracts entity names from an nltk tree, in this case a sentence chunk"""
@@ -42,7 +43,7 @@ def parse_file(filename):
     for tree in chunked_sentences:
         entity_names.extend(extract_entity_names(tree))
 
-    # Print unique entity names
+    # return unique entity names
     return (set(entity_names))
 
 
@@ -52,10 +53,10 @@ def main(argv=None):
     parser.add_argument("filename", help="filename: a utf8 encoded text file")
     args = parser.parse_args()
 
-    entity_list = list(parse_file(args.filename)) # returns a set, so cast to list
-    entity_list.sort()                            # sort the list
-    
-    # print the names out to stdout, one per line. 
+    entity_list = list(parse_file(args.filename))   # returns a set, so cast to list
+    entity_list.sort()                              # sort the list
+
+    # print the names out to stdout, one per line.
     # meant to be redirected into an output file.
     for entity in entity_list:
         print(entity)

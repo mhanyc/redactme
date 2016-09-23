@@ -20,7 +20,11 @@ Our documents begin as pdfs.
 
 
 ## Installation
-Clone the repo. Running make build a virtual environment with all of the dependecies you need installed. The first time you run the program you will need to load some NLTK data dictionaries, as per http://www.nltk.org/data.html.
+* install virtualenv (`apt-get install python3-virtualenv python-virtualenv`)
+* Clone the repo.
+* Change into the repo directory
+* Run `make`.  This will build a virtual environment with all of the dependecies you need installed.
+* The first time you run the program you will need to load some NLTK data dictionaries, as per http://www.nltk.org/data.html.  You need punkt, averaged_perceptron_tagger, maxent_ne_chunker and words
 
 Once the script is built, ./extract_names.py can be used to process test files, and outputs the stopwords it finds. 
 
