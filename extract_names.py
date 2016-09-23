@@ -52,7 +52,9 @@ def main(argv=None):
     parser.add_argument("filename", help="filename: a utf8 encoded text file")
     args = parser.parse_args()
 
-    entity_list = parse_file(args.filename)
+    entity_list = list(parse_file(args.filename)) # returns a set, so cast to list
+    entity_list.sort()                            # sort the list
+    
     # print the names out to stdout, one per line. 
     # meant to be redirected into an output file.
     for entity in entity_list:
