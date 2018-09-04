@@ -11,6 +11,7 @@ Jonah Bossewitch, MHA of NYC
 """
 
 import sys
+import os
 import nltk
 
 
@@ -47,19 +48,41 @@ def parse_file(filename):
     return (set(entity_names))
 
 
-def main(argv=None):
-    import argparse
-    parser = argparse.ArgumentParser()
-    parser.add_argument("filename", help="filename: a utf8 encoded text file")
-    args = parser.parse_args()
-
-    entity_list = list(parse_file(args.filename))   # returns a set, so cast to list
-    entity_list.sort()                              # sort the list
+def print_entity_list(file_name):
+    # returns a set, so cast to list
+    entity_list = list(parse_file(file_name))
+    # sort the list
+    entity_list.sort()
 
     # print the names out to stdout, one per line.
     # meant to be redirected into an output file.
     for entity in entity_list:
         print(entity)
+
+
+def main(argv=None):
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-path", help="UTF8 encoded text file or "
+                                      "directory containing multiple")
+    args = parser.parse_args()
+    path = args.path
+
+    try:
+        # make sure path exists
+        assert os.path.exists(path)
+
+        if os.path.isdir(path):
+            # if path is a folder, iterate and print
+            for file in os.listdir(path):
+                print('=====RESULTS: {0}====='.format(file))
+                print_entity_list('{0}/{1}'.format(path, file))
+        elif os.path.isfile(path):
+            # if path is a file, just print
+            print_entity_list(path)
+    except:
+        raise OSError('Error opening file or folder')
+
 
 if __name__ == "__main__":
     sys.exit(main())
